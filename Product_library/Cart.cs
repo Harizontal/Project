@@ -12,29 +12,37 @@ namespace Product_library
     {
         public List<PositionInCart> items = new List<PositionInCart>();
 
-        public void AddItem(Product product, int quantity)
+        public void AddItem(Product product)
         {
-            items.Add(new PositionInCart(product, quantity));
+            items.Add(new PositionInCart(product));
+
         }
 
         public double TotalPrice() => items.Sum(item => item.GetTotalPrice());
         public double TotalWeight() => items.Sum(item => item.GetTotalWeight());
 
-        public string GetOrderInformation(Storage product)
+        public string GetOrderInformation(Storage storage)
         {
 
             var info = new List<string>();
             foreach (var item in items)
             {
-                info.Add(item.GetItemDescription(product.stock));
+                info.Add(item.ToString() + item.GetItemDescription(storage));
             }
             return string.Join("\n", info);
         }
         public string AlphabeticalOrder()
         {
-            var itemDescriptions = items.OrderBy(item => item.Name).Select(item => item.ToString()).ToList();
+            List<Product> sortedProducts = new List<Product>();
+            sortedProducts.Sort((a, b) => a.Name.CompareTo(b.Name));
 
-            return string.Join("\n", itemDescriptions);
+            StringBuilder sb = new StringBuilder();
+            foreach (Product product in sortedProducts)
+            {
+                sb.AppendLine(product.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 

@@ -5,43 +5,75 @@ using Calculator_library;
 
 namespace Product_library
 {
-    public class OrderCalculator: Calculator
+    public class OrderCalculator : Calculator
     {
-        public PositionInCart Add(PositionInCart posCart, int quantity)
+        public void Add(PositionInCart posCart, int quantity)
         {
             posCart.Quantity += quantity;
-            return posCart;
         }
 
-        public PositionInCart Subtract(PositionInCart posCart, int quantity)
+        public void Subtract(PositionInCart posCart, int quantity)
         {
             if (quantity > posCart.Quantity)
                 throw new ArgumentException("Количество для вычитания больше текущего количества");
             posCart.Quantity -= quantity;
-            return posCart;
         }
 
-        public PositionInCart Multiply(PositionInCart posCart, int quantity)
+        public void Multiply(PositionInCart posCart, int quantity)
         {
             posCart.Quantity *= quantity;
-            return posCart;
         }
 
-        public PositionInCart Divide(PositionInCart posCart, int divisor)
+        public void Divide(PositionInCart posCart, int divisor)
         {
             if (divisor == 0)
                 throw new DivideByZeroException("Деление на ноль не допускается");
 
-            posCart.Quantity /= divisor;    
-            return posCart;
+            posCart.Quantity /= divisor;
         }
-        public void RemoveItemsByType(List<PositionInCart> cart, Type productType)
+        public void RemoveItemsByType(string productType, Cart cart, Storage storage)
         {
-            foreach (var item in cart)
+            List<Product> productsToRemove = GetProductsByType(productType, storage);
+
+            foreach (var product in productsToRemove)
             {
-                if(item.GetType() == productType)
-                    cart.Remove(item);
+                var positionInCart = cart.items.FirstOrDefault(p => p.Name == product.Name);
+                if (positionInCart != null)
+                {
+                    cart.items.Remove(positionInCart);
+                }
             }
+        }
+
+        private List<Product> GetProductsByType(string productType, Storage storage)
+        {
+            List<Product> products = new List<Product>();
+
+            switch (productType)
+            {
+                case "ElectronicsProduct":
+                    foreach (var product in storage.stock.OfType<ElectronicsProduct>())
+                    {
+                        products.Add(product);
+                    }
+                    break;
+                case "FoodProduct":
+                    foreach (var product in storage.stock.OfType<FoodProduct>())
+                    {
+                        products.Add(product);
+                    }
+                    break;
+                case "FurnitureProduct":
+                    foreach (var product in storage.stock.OfType<FurnitureProduct>())
+                    {
+                        products.Add(product);
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Неверный тип продукта");
+            }
+
+            return products;
         }
     }
 }

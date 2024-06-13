@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Product_library
 {
-    public class Product : ICloneable
+    public class Product
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -37,9 +37,10 @@ namespace Product_library
             Stock = stock;
             Description = description;
         }
-        public object Clone()
+
+        public override string ToString()
         {
-            return MemberwiseClone();
+            return $"{Name}, {Price}, {Weight}, {DeliveryDate}, {Stock}, {Description}";
         }
     }
 

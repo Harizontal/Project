@@ -1,18 +1,82 @@
 [
   {
-    "name": "Продукт 1",
-    "price": 10.99,
-    "weight": 0.5,
+    "type": "FurnitureProduct",
+    "name": "Стул",
+    "price": 50.99,
+    "weight": 10.0,
     "deliveryDate": "2022-01-01T00:00:00Z",
     "stock": 10,
-    "description": "Это просто продукт 1"
+    "description": "Это стул",
+    "material": "Дерево"
   },
   {
-    "name": "Продукт 2",
-    "price": 15.99,
+    "type": "FoodProduct",
+    "name": "Food Product 1",
+    "price": 2.99,
     "weight": 1.0,
     "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Food Product 2",
+    "price": 2.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Food Product 3",
+    "price": 2.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Food Product 4",
+    "price": 2.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Food Product 4",
+    "price": 2.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Food Product 3",
+    "price": 2.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 50,
+    "description": "Это молоко",
+    "expirationDate": "2022-02-01T00:00:00Z"
+  },
+  {
+    "type": "ElectronicsProduct",
+    "name": "Телевизор",
+    "price": 500.99,
+    "weight": 20.0,
+    "deliveryDate": "2022-01-03T00:00:00Z",
     "stock": 5,
-    "description": "Это просто продукт 2"
+    "description": "Это телевизор",
+    "hasDryer": true
   }
 ]
