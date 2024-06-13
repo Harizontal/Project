@@ -8,7 +8,7 @@ namespace Product_library
     public class Storage
     {
 
-        private List<Product> stock = new List<Product>();
+        public List<Product> stock = new List<Product>();
 
         public void LoadStock(string filePath)
         {

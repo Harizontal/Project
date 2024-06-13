@@ -1,60 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Calculator_library;
 
 namespace Product_library
 {
-    public class OrderCalculator : Calculator
+    public class OrderCalculator: Calculator
     {
-        private Dictionary<Product, int> orderItems;
-
-        public OrderCalculator(ILogger logger = null, bool logOperations = true)
-            : base(logger, logOperations)
+        public PositionInCart Add(PositionInCart posCart, int quantity)
         {
-            orderItems = new Dictionary<Product, int>();
+            posCart.Quantity += quantity;
+            return posCart;
         }
 
-        public void AddItem(Product product, int quantity)
+        public PositionInCart Subtract(PositionInCart posCart, int quantity)
         {
-            if (!orderItems.ContainsKey(product))
-                orderItems[product] = 0;
-
-            orderItems[product] += quantity;
+            if (quantity > posCart.Quantity)
+                throw new ArgumentException("Количество для вычитания больше текущего количества");
+            posCart.Quantity -= quantity;
+            return posCart;
         }
 
-        public void SubtractItem(Product product, int quantity)
+        public PositionInCart Multiply(PositionInCart posCart, int quantity)
         {
-            if (!orderItems.ContainsKey(product))
-                throw new InvalidOperationException($"Товар {product.Name} не найден в заказе");
-
-            if (orderItems[product] < quantity)
-                throw new InvalidOperationException($"Недостаточно товаров {product.Name} в заказе");
-
-            orderItems[product] -= quantity;
+            posCart.Quantity *= quantity;
+            return posCart;
         }
 
-        public void MultiplyItem(Product product, int multiplier)
+        public PositionInCart Divide(PositionInCart posCart, int divisor)
         {
-            if (!orderItems.ContainsKey(product))
-                orderItems[product] = 0;
-
-            orderItems[product] *= multiplier;
-        }
-
-        public void DivideItem(Product product, int divisor)
-        {
-            if (!orderItems.ContainsKey(product))
-                throw new InvalidOperationException($"Товар {product.Name} не найден в заказе");
-
             if (divisor == 0)
                 throw new DivideByZeroException("Деление на ноль не допускается");
 
-            orderItems[product] /= divisor;
+            posCart.Quantity /= divisor;    
+            return posCart;
         }
-
-        public Dictionary<Product, int> GetOrderItems()
+        public void RemoveItemsByType(List<PositionInCart> cart, Type productType)
         {
-            return orderItems;
+            foreach (var item in cart)
+            {
+                if(item.GetType() == productType)
+                    cart.Remove(item);
+            }
         }
     }
 }

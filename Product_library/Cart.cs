@@ -12,50 +12,29 @@ namespace Product_library
     {
         public List<PositionInCart> items = new List<PositionInCart>();
 
-        public void AddItem(Product item, int quantity)
+        public void AddItem(Product product, int quantity)
         {
-            items.Add(new PositionInCart { Product = item, Quantity = quantity });
+            items.Add(new PositionInCart(product, quantity));
         }
 
         public double TotalPrice() => items.Sum(item => item.GetTotalPrice());
         public double TotalWeight() => items.Sum(item => item.GetTotalWeight());
 
-        public string GetOrderInformation()
+        public string GetOrderInformation(Storage product)
         {
+
             var info = new List<string>();
             foreach (var item in items)
             {
-                info.Add(item.GetItemDescription());
+                info.Add(item.GetItemDescription(product.stock));
             }
             return string.Join("\n", info);
         }
-
-        public void CalculateOptimalOrder(Dictionary<string, List<Product>> productSets)
+        public string AlphabeticalOrder()
         {
+            var itemDescriptions = items.OrderBy(item => item.Name).Select(item => item.ToString()).ToList();
 
-            foreach (var kvp in productSets)
-            {
-                var set = kvp.Value;
-                var cheapestItem = set.OrderBy(item => item.Price).First();
-                AddItem(cheapestItem, 1);
-            }
-        }
-        public string GetItemsInAlphabeticalOrder()
-        {
-            var itemsByName = new List<Product>();
-            foreach (var position in items)
-            {
-                itemsByName.Add(position.Product);
-            }
-
-            itemsByName.Sort((a, b) => a.Name.CompareTo(b.Name));
-
-            var info = new List<string>();
-            foreach (var item in itemsByName)
-            {
-                info.Add(item.ToString());
-            }
-            return string.Join("\n", info);
+            return string.Join("\n", itemDescriptions);
         }
     }
 

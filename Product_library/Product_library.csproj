@@ -75,7 +75,10 @@
     <Compile Include="Cart.cs" />
     <Compile Include="OrderCalculator.cs" />
     <Compile Include="PositionInCart.cs" />
-    <Compile Include="Product.cs" />
+    <Compile Include="Products\ElectronicsProduct.cs" />
+    <Compile Include="Products\FoodProduct.cs" />
+    <Compile Include="Products\FurnitureProduct.cs" />
+    <Compile Include="Products\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage.cs" />
   </ItemGroup>

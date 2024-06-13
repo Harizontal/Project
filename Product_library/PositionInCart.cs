@@ -7,22 +7,30 @@ namespace Product_library
 {
     public class PositionInCart
     {
-        public Product Product { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public double Weight { get; set; }
         public int Quantity { get; set; }
 
-        public double GetTotalPrice()
+        public PositionInCart(Product product, int quantity)
         {
-            return Product.Price * Quantity;
+            Product clonedProduct = (Product)product.Clone();
+            Name = clonedProduct.Name;
+            Price = clonedProduct.Price;
+            Weight = clonedProduct.Weight;
+            Quantity = quantity;
         }
 
-        public double GetTotalWeight()
-        {
-            return Product.Weight * Quantity;
-        }
+        public double GetTotalPrice() => Price * Quantity;
+        public double GetTotalWeight() => Weight * Quantity;
 
-        public string GetItemDescription()
+        public string GetItemDescription(List<Product> product)
         {
-            return $"{Product.ToString()}, Количество: {Quantity}";
+            foreach (var item in product)
+            {
+                return $"{item.Name}, {GetTotalPrice()}, {GetTotalWeight()}, {item.Description}";
+            }
+            return "";
         }
     }
 }
