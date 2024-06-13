@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Продукт 1",
+    "price": 10.99,
+    "weight": 0.5,
+    "deliveryDate": "2022-01-01T00:00:00Z",
+    "stock": 10,
+    "description": "Это просто продукт 1"
+  },
+  {
+    "name": "Продукт 2",
+    "price": 15.99,
+    "weight": 1.0,
+    "deliveryDate": "2022-01-02T00:00:00Z",
+    "stock": 5,
+    "description": "Это просто продукт 2"
+  }
+]
