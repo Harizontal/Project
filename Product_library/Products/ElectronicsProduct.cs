@@ -2,9 +2,11 @@
 using System.Diagnostics;
 using System.Xml.Linq;
 using System;
+using System.Text.Json.Serialization;
 
 public class ElectronicsProduct : Product
 {
+    [JsonPropertyName("has_dryer")]
     public bool HasDryer { get; set; }
 
     public ElectronicsProduct(string name, double price, double weight, DateTime deliveryDate, int stock, string description, bool hasDryer)
@@ -15,6 +17,6 @@ public class ElectronicsProduct : Product
 
     public override string ToString()
     {
-        return $"{Name}, {Price}, {Weight}, {HasDryer}";
+        return $"{Name}, {Price}, {Weight}, {DeliveryDate}, {Stock}, {Description}, {HasDryer}";
     }
 }   

@@ -1,9 +1,12 @@
-﻿    using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
-    namespace Product_library
+namespace Product_library
     {
         public class FoodProduct : Product
         {
+
+            [JsonPropertyName("expiration_date")]
             public DateTime ExpirationDate { get; set; }
 
             public FoodProduct(string name, double price, double weight, DateTime deliveryDate, int stock, string description, DateTime expirationDate)
@@ -14,7 +17,7 @@
 
             public override string ToString()
             {
-                return $"{Name}, {Price}, {Weight}, {ExpirationDate}";
+                return $"{Name}, {Price}, {Weight}, {DeliveryDate}, {Stock}, {Description}, {ExpirationDate}";
             }
         }
     }

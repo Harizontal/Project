@@ -12,25 +12,30 @@ namespace Product_library
         public double Weight { get; set; }
         public int Quantity { get; set; }
 
-        public PositionInCart(Product product, int quantity)
+        public PositionInCart(Product product)
         {
-            Product clonedProduct = (Product)product.Clone();
-            Name = clonedProduct.Name;
-            Price = clonedProduct.Price;
-            Weight = clonedProduct.Weight;
-            Quantity = quantity;
+            Name = product.Name;
+            Price = product.Price;
+            Weight = product.Weight;
+            Quantity = 1;
         }
 
         public double GetTotalPrice() => Price * Quantity;
         public double GetTotalWeight() => Weight * Quantity;
 
-        public string GetItemDescription(List<Product> product)
+        public string GetItemDescription(Storage storage)
         {
-            foreach (var item in product)
+            Product product = storage.stock.FirstOrDefault(p => p.Name == Name);
+            if (product != null)
             {
-                return $"{item.Name}, {GetTotalPrice()}, {GetTotalWeight()}, {item.Description}";
+                return product.Description;
             }
             return "";
+        }
+
+        public override string ToString()
+        {
+            return $"{Name},{GetTotalPrice()},{GetTotalWeight()},{Quantity} ";
         }
     }
 }
