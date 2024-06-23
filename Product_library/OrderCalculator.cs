@@ -9,25 +9,33 @@ namespace Product_library
     {
         public void Add(PositionInCart posCart, int quantity)
         {
+            if (quantity <= 0)
+                throw new ArgumentException("Количество для сложения меньше нуля или равно нулю");
             posCart.Quantity += quantity;
         }
 
         public void Subtract(PositionInCart posCart, int quantity)
         {
-            if (quantity > posCart.Quantity)
+            if (quantity > posCart.Quantity || quantity <= 0)
                 throw new ArgumentException("Количество для вычитания больше текущего количества");
             posCart.Quantity -= quantity;
         }
 
         public void Multiply(PositionInCart posCart, int quantity)
         {
+            if (quantity > int.MaxValue / posCart.Quantity || quantity <= 0)
+            {
+                throw new OverflowException("Переполнение при умножении или количество меньше нуля или равно нулю");
+            }
+
             posCart.Quantity *= quantity;
         }
 
+
         public void Divide(PositionInCart posCart, int divisor)
         {
-            if (divisor == 0)
-                throw new DivideByZeroException("Деление на ноль не допускается");
+            if (divisor <= 0)
+                throw new DivideByZeroException("Деление на ноль не допускается или количество меньше нуля");
 
             posCart.Quantity /= divisor;
         }

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "FurnitureProduct",
+    "name": "Table",
+    "quantity": "5"
+  },
+  {
+    "type": "FurnitureProduct",
+    "name": "Chair",
+    "quantity": "2"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Apple",
+    "quantity": "1"
+  },
+  {
+    "type": "FoodProduct",
+    "name": "Banana",
+    "quantity": "666"
+  },
+  {
+    "type": "ElectronicsProduct",
+    "name": "Phone",
+    "quantity": "100"
+  },
+  {
+    "type": "ElectronicsProduct",
+    "name": "Laptop",
+    "quantity": "9"
+  }
+]

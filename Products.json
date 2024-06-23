@@ -10,8 +10,8 @@
     "material": "Дерево"
   },
   {
-    "type": "FoodProduct",
-    "name": "Food Product 1",
+    "type": "ElectronicsProduct",
+    "name": "ElectronicsProduct",
     "price": 2.99,
     "weight": 1.0,
     "deliveryDate": "2022-01-02T00:00:00Z",

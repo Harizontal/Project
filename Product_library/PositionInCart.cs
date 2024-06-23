@@ -10,6 +10,7 @@ namespace Product_library
         public string Name { get; set; }
         public double Price { get; set; }
         public double Weight { get; set; }
+        public DateTime DeliveryDate { get; set; }
         public int Quantity { get; set; }
 
         public PositionInCart(Product product)
@@ -17,6 +18,7 @@ namespace Product_library
             Name = product.Name;
             Price = product.Price;
             Weight = product.Weight;
+            DeliveryDate = product.DeliveryDate;
             Quantity = 1;
         }
 
