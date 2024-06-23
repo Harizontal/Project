@@ -133,85 +133,98 @@ namespace ProductLibraryConsoleApp
             bool hasDryer = random.Next(0, 2) == 1;
             return new ElectronicsProduct(name, price, weight, deliveryDate, stock, description, hasDryer);
         }
-        public static void EditProduct(Product product)
+        public static void EditProduct(ref Product product, Product editedProduct, bool readFromConsole = true)
         {
-            Console.WriteLine("Введите новое название товара:");
-            string newName = Console.ReadLine();
-            while (string.IsNullOrEmpty(newName))
+            if (readFromConsole)
             {
-                Console.WriteLine("Некорректное название. Попробуйте еще раз:");
-                newName = Console.ReadLine();
-            }
-            product.Name = newName;
+                Console.WriteLine("Введите новое название товара:");
+                string newName = Console.ReadLine();
+                while (string.IsNullOrEmpty(newName))
+                {
+                    Console.WriteLine("Некорректное название. Попробуйте еще раз:");
+                    newName = Console.ReadLine();
+                }
+                product.Name = newName;
 
-            Console.WriteLine("Введите новую цену товара:");
-            string newPriceString = Console.ReadLine();
-            double newPrice;
-            while (!double.TryParse(newPriceString, out newPrice))
-            {
-                Console.WriteLine("Некорректная цена. Попробуйте еще раз:");
-                newPriceString = Console.ReadLine();
-            }
-            product.Price = newPrice;
+                Console.WriteLine("Введите новое описание товара:");
+                string newDescription = Console.ReadLine();
+                while (string.IsNullOrEmpty(newDescription))
+                {
+                    Console.WriteLine("Некорректное описание. Попробуйте еще раз:");
+                    newDescription = Console.ReadLine();
+                }
+                product.Description = newDescription;
 
-            Console.WriteLine("Введите новый вес товара:");
-            string newWeightString = Console.ReadLine();
-            double newWeight;
-            while (!double.TryParse(newWeightString, out newWeight))
-            {
-                Console.WriteLine("Некорректный вес. Попробуйте еще раз:");
-                newWeightString = Console.ReadLine();
-            }
-            product.Weight = newWeight;
+                Console.WriteLine("Введите новую цену товара:");
+                string newPriceString = Console.ReadLine();
+                double newPrice;
+                while (!double.TryParse(newPriceString, out newPrice))
+                {
+                    Console.WriteLine("Некорректная цена. Попробуйте еще раз:");
+                    newPriceString = Console.ReadLine();
+                }
+                product.Price = newPrice;
 
-            Console.WriteLine("Введите новую дату доставки товара:");
-            string newDeliveryDateString = Console.ReadLine();
-            DateTime newDeliveryDate;
-            while (!DateTime.TryParseExact(newDeliveryDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newDeliveryDate))
-            {
-                Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
-                newDeliveryDateString = Console.ReadLine();
-            }
-            product.DeliveryDate = newDeliveryDate;
+                Console.WriteLine("Введите новый вес товара:");
+                string newWeightString = Console.ReadLine();
+                double newWeight;
+                while (!double.TryParse(newWeightString, out newWeight))
+                {
+                    Console.WriteLine("Некорректный вес. Попробуйте еще раз:");
+                    newWeightString = Console.ReadLine();
+                }
+                product.Weight = newWeight;
 
-            switch (product)
-            {
-                case FurnitureProduct furnitureProduct:
-                    Console.WriteLine("Введите новый материал мебели:");
-                    string newMaterial = Console.ReadLine();
-                    while (string.IsNullOrEmpty(newMaterial))
-                    {
-                        Console.WriteLine("Некорректный материал. Попробуйте еще раз:");
-                        newMaterial = Console.ReadLine();
-                    }
-                    furnitureProduct.Material = newMaterial;
-                    break;
-                case FoodProduct foodProduct:
-                    Console.WriteLine("Введите новую дату истечения срока годности:");
-                    string newExpirationDateString = Console.ReadLine();
-                    DateTime newExpirationDate;
-                    while (!DateTime.TryParseExact(newExpirationDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newExpirationDate))
-                    {
-                        Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
-                        newExpirationDateString = Console.ReadLine();
-                    }
-                    foodProduct.ExpirationDate = newExpirationDate;
-                    break;
-                case ElectronicsProduct electronicsProduct:
-                    Console.WriteLine("Введите новое значение для наличия сушилки (true/false):");
-                    string newHasDryerString = Console.ReadLine();
-                    bool newHasDryer;
-                    while (!bool.TryParse(newHasDryerString, out newHasDryer))
-                    {
-                        Console.WriteLine("Некорректное значение. Попробуйте еще раз (true/false):");
-                        newHasDryerString = Console.ReadLine();
-                    }
-                    electronicsProduct.HasDryer = newHasDryer;
-                    break;
-                default:
-                    Console.WriteLine("Тип продукта не поддерживается.");
-                    break;
+                Console.WriteLine("Введите новую дату доставки товара:");
+                string newDeliveryDateString = Console.ReadLine();
+                DateTime newDeliveryDate;
+                while (!DateTime.TryParseExact(newDeliveryDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newDeliveryDate))
+                {
+                    Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
+                    newDeliveryDateString = Console.ReadLine();
+                }
+                product.DeliveryDate = newDeliveryDate;
+
+                switch (product)
+                {
+                    case FurnitureProduct furnitureProduct:
+                        Console.WriteLine("Введите новый материал мебели:");
+                        string newMaterial = Console.ReadLine();
+                        while (string.IsNullOrEmpty(newMaterial))
+                        {
+                            Console.WriteLine("Некорректный материал. Попробуйте еще раз:");
+                            newMaterial = Console.ReadLine();
+                        }
+                        furnitureProduct.Material = newMaterial;
+                        break;
+                    case FoodProduct foodProduct:
+                        Console.WriteLine("Введите новую дату истечения срока годности:");
+                        string newExpirationDateString = Console.ReadLine();
+                        DateTime newExpirationDate;
+                        while (!DateTime.TryParseExact(newExpirationDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newExpirationDate))
+                        {
+                            Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
+                            newExpirationDateString = Console.ReadLine();
+                        }
+                        foodProduct.ExpirationDate = newExpirationDate;
+                        break;
+                    case ElectronicsProduct electronicsProduct:
+                        Console.WriteLine("Введите новое значение для наличия сушилки (true/false):");
+                        string newHasDryerString = Console.ReadLine();
+                        bool newHasDryer;
+                        while (!bool.TryParse(newHasDryerString, out newHasDryer))
+                        {
+                            Console.WriteLine("Некорректное значение. Попробуйте еще раз:");
+                            newHasDryerString = Console.ReadLine();
+                        }
+                        electronicsProduct.HasDryer = newHasDryer;
+                        break;
+                    default:
+                        Console.WriteLine("Тип продукта не поддерживается.");
+                        break;
+                }
             }
+            product = editedProduct;
         }
     }
 }
