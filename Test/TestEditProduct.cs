@@ -10,7 +10,7 @@ namespace ProductLibrary.Tests
     public class ProductTests
     {
         [TestMethod]
-        public void EditProduct_WithValidData()
+        public void EditProductWithValidData()
         {
             var product = new ElectronicsProduct
             {

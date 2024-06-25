@@ -24,9 +24,9 @@ namespace Product_library.Tests
             calculator.Add(position, 2);
             Assert.AreEqual(3, position.Quantity);
         }
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-
         public void TestAddNegativ()
         {
             var calculator = new OrderCalculator();

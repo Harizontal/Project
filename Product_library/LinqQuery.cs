@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace Product_library
 {
+    /// <summary>
+    /// Класс, содержащий методы для фильтрации и сортировки товаров в корзине.
+    /// </summary>
     public class LinqQuery
     {
+        /// <summary>
+        /// Фильтрует товары в корзине по заданной цене.
+        /// </summary>
+        /// <param name="cart">Корзина, содержащая товары.</param>
         public static void FilterByPrice(Cart cart)
         {
             Console.Write("Введите цену: ");
@@ -34,6 +41,11 @@ namespace Product_library
             }
         }
 
+        /// <summary>
+        /// Фильтрует товары в корзине по заданному типу.
+        /// </summary>
+        /// <param name="cart">Корзина, содержащая товары.</param>
+        /// <param name="storage">Хранилище, содержащее информацию о товарах.</param>
         public static void FilterByType(Cart cart, Storage storage)
         {
             Console.WriteLine("Выберите тип товара:");
@@ -66,7 +78,8 @@ namespace Product_library
 
         private static void FilterByTypeHelper(Cart cart, Storage storage, string typeName)
         {
-            var productsOfType = storage.stock.OfType<Product>().Where(p => p.GetType().Name == typeName);
+            var productsOfType = storage.stock.FindAll(p => p.GetType().Name == typeName);
+
             foreach (var product in productsOfType)
             {
                 PositionInCart posCart = cart.items.FirstOrDefault(p => p.Name == product.Name);
@@ -74,6 +87,10 @@ namespace Product_library
             }
         }
 
+        /// <summary>
+        /// Сортирует товары в корзине по весу.
+        /// </summary>
+        /// <param name="cart">Корзина, содержащая товары.</param>
         public static void SortByWeight(Cart cart)
         {
             var sortedByWeight = cart.items.OrderBy(p => p.Weight);
@@ -84,6 +101,10 @@ namespace Product_library
             }
         }
 
+        /// <summary>
+        /// Выводит уникальные названия товаров в корзине.
+        /// </summary>
+        /// <param name="cart">Корзина, содержащая товары.</param>
         public static void UniqueNames(Cart cart)
         {
             var uniqueNames = cart.items.Select(p => p.Name).Distinct();
@@ -94,6 +115,10 @@ namespace Product_library
             }
         }
 
+        /// <summary>
+        /// Фильтрует товары в корзине по заданной дате доставки.
+        /// </summary>
+        /// <param name="cart">Корзина, содержащая товары.</param>
         public static void FilterByDate(Cart cart)
         {
             Console.Write("Введите дату: ");

@@ -7,9 +7,6 @@ namespace ProductLibraryConsoleApp
 {
     class Program
     {
-        // Переделать полностью тесты, доработай генератор тестовых данных тем, что sum не должен выходить за рамки диапозона методом
-        // sum - диапозон = вычетаемое
-        // sum - вычетаемое = диапозон
         static void Main(string[] args)
         {
             Storage storage = new Storage();
