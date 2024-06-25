@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Xml.Linq;
 using Product_library;
-using System.IO;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace ProductLibraryConsoleApp
 {
     class Program
     {
+        // Переделать полностью тесты, доработай генератор тестовых данных тем, что sum не должен выходить за рамки диапозона методом
+        // sum - диапозон = вычетаемое
+        // sum - вычетаемое = диапозон
         static void Main(string[] args)
         {
             Storage storage = new Storage();
             storage.LoadStock(@"C:\Users\Alexey\Desktop\Product_library\Products.json");
 
-
             Cart cart = new Cart();
+            cart = TestDataGenerator.GenerateOrderSumMinMax(10, 90);
 
             OrderCalculator calculator = new OrderCalculator();
 
@@ -66,7 +64,7 @@ namespace ProductLibraryConsoleApp
                     case 2:
                         Console.WriteLine("Укажите путь на файл:");
                         string path = Console.ReadLine();
-                        Console.WriteLine(cart.ProcessOrderFile($@"{path}"));
+                        Console.WriteLine(cart.LoadOrderFile($@"{path}"));
                         break;
                     case 3:
                         Console.Write("Введите имя товара: ");
@@ -155,9 +153,8 @@ namespace ProductLibraryConsoleApp
                         var productToEdit = storage.stock.FirstOrDefault(p => p.Name == productName);
                         if (productToEdit != null)
                         {
-                            var editedProduct = new Product("New Name", 12, 12, new DateTime(2023, 1, 1), 10, "dddd");
                             var index = storage.stock.IndexOf(productToEdit);
-                            TestDataGenerator.EditProduct(ref productToEdit, editedProduct, false);
+                            TestDataGenerator.EditProduct(ref productToEdit, productToEdit, true);
                             storage.stock[index] = productToEdit;
                             Console.WriteLine("Товар успешно отредактирован.");
                         }
@@ -183,100 +180,23 @@ namespace ProductLibraryConsoleApp
                             {
                                 Console.WriteLine("Неверное значение. Попробуйте снова.");
                             }
+
                             switch (choose)
                             {
                                 case 1:
-                                    Console.Write("Введите цену: ");
-                                    double price;
-                                    while (!double.TryParse(Console.ReadLine(), out price))
-                                    {
-                                        Console.WriteLine("Неверное значение. Попробуйте снова.");
-                                    }
-                                    var expensiveProducts = cart.items.Where(p => p.Price > price);
-                                    var cheapProducts = cart.items.Where(p => p.Price < price);
-                                    Console.WriteLine("Дороже заданной цены:");
-                                    foreach (var producte in expensiveProducts)
-                                    {
-                                        Console.WriteLine(producte);
-                                    }
-                                    Console.WriteLine("Дешевле заданной цены:");
-                                    foreach (var producte in cheapProducts)
-                                    {
-                                        Console.WriteLine(producte);
-                                    }
+                                    LinqQuery.FilterByPrice(cart);
                                     break;
                                 case 2:
-                                    Console.WriteLine("Выберите тип товара:");
-                                    Console.WriteLine("1. ElectronicsProduct");
-                                    Console.WriteLine("2. FoodProduct");
-                                    Console.WriteLine("3. FurnitureProduct");
-
-                                    int typeChoice;
-                                    while (!int.TryParse(Console.ReadLine(), out typeChoice))
-                                    {
-                                        Console.WriteLine("Неверное значение. Попробуйте снова.");
-                                    }
-
-                                    switch (typeChoice)
-                                    {
-                                        case 1:
-                                            var electronicsProducts = storage.stock.OfType<ElectronicsProduct>();
-                                            foreach (var producte in electronicsProducts)
-                                            {
-                                                PositionInCart posCart = cart.items.FirstOrDefault(p => p.Name == producte.Name);
-                                                Console.WriteLine(posCart.ToString() + posCart.GetItemDescription(storage));
-                                            }
-                                            break;
-                                        case 2:
-                                            var foodProducts = storage.stock.OfType<FoodProduct>();
-                                            foreach (var producte in foodProducts)
-                                            {
-                                                PositionInCart posCart = cart.items.FirstOrDefault(p => p.Name == producte.Name);
-                                                Console.WriteLine(posCart.ToString() + posCart.GetItemDescription(storage));
-                                            }
-                                            break;
-                                        case 3:
-                                            var furnitureProducts = storage.stock.OfType<FurnitureProduct>();
-                                            foreach (var producte in furnitureProducts)
-                                            {
-                                                PositionInCart posCart = cart.items.FirstOrDefault(p => p.Name == producte.Name);
-                                                Console.WriteLine(posCart.ToString() + posCart.GetItemDescription(storage));
-                                            }
-                                            break;
-                                        default:
-                                            Console.WriteLine("Неверный выбор");
-                                            break;
-                                    }
+                                    LinqQuery.FilterByType(cart, storage);
                                     break;
                                 case 3:
-                                    var sortedByWeight = cart.items.OrderBy(p => p.Weight);
-                                    Console.WriteLine("Отсортированные по весу:");
-                                    foreach (var producte in sortedByWeight)
-                                    {
-                                        Console.WriteLine(producte);
-                                    }
+                                    LinqQuery.SortByWeight(cart);
                                     break;
                                 case 4:
-                                    var uniqueNames = cart.items.Select(p => p.Name).Distinct();
-                                    Console.WriteLine("Уникальные названия:");
-                                    foreach (var Name in uniqueNames)
-                                    {
-                                        Console.WriteLine(Name);
-                                    }
+                                    LinqQuery.UniqueNames(cart);
                                     break;
                                 case 5:
-                                    Console.Write("Введите дату: ");
-                                    DateTime date;
-                                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd.MM.yyyy", null, DateTimeStyles.None, out date))
-                                    {
-                                        Console.WriteLine("Неверный формат даты. Попробуйте снова.");
-                                    }
-                                    var productsBeforeDate = cart.items.Where(p => p.DeliveryDate < date);
-                                    Console.WriteLine("Отправленные до указанной даты:");
-                                    foreach (var producte in productsBeforeDate)
-                                    {
-                                        Console.WriteLine(producte);
-                                    }
+                                    LinqQuery.FilterByDate(cart);
                                     break;
                                 case 6:
                                     return;
@@ -290,6 +210,7 @@ namespace ProductLibraryConsoleApp
                         Console.WriteLine("Корзина очищена");
                         break;
                     case 11:
+                        storage.SaveStock(@"C:\Users\Alexey\Desktop\Product_library\Products.json");
                         return;
                 }
             }

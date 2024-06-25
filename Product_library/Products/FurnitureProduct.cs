@@ -8,15 +8,10 @@ namespace Product_library
         [JsonPropertyName("material")]
         public string Material { get; set; }
 
-        public FurnitureProduct(string name, double price, double weight, DateTime deliveryDate, int stock, string description, string material)
-            : base(name, price, weight, deliveryDate, stock, description)
-        {
-            Material = material;
-        }
-
         public override string ToString()
         {
-            return $"{Name}, {Price}, {Weight}, {DeliveryDate}, {Stock}, {Description}, {Material}";
+            return $"Name: {Name}, Price: {Price}, Weight: {Weight}, DeliveryDate: {DeliveryDate.ToShortDateString()}, Stcok: {Stock}, Description: {Description}" +
+                $"Material: {Material}";
         }
     }
 }

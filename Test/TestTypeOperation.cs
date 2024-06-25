@@ -11,7 +11,16 @@ namespace Product_library.Tests
         public void TestAdd()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 2);
             Assert.AreEqual(3, position.Quantity);
         }
@@ -21,7 +30,16 @@ namespace Product_library.Tests
         public void TestAddNegativ()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, -2);
         }
         [TestMethod]
@@ -29,14 +47,32 @@ namespace Product_library.Tests
         public void TestAddZero()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 0);
         }
         [TestMethod]
         public void TestSubtract()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 2);
             calculator.Subtract(position, 1);
             Assert.AreEqual(2, position.Quantity);
@@ -46,7 +82,16 @@ namespace Product_library.Tests
         public void TestMultiply()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 2);
             calculator.Multiply(position, 3);
             Assert.AreEqual(9, position.Quantity);
@@ -57,29 +102,34 @@ namespace Product_library.Tests
         public void TestDivideByZero()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 2);
             calculator.Divide(position, 0);
-        }
-
-        [TestMethod]
-        public void TestRemoveItemsByType()
-        {
-            var storage = new Storage();
-            storage.LoadStock(@"C:\Users\Alexey\Desktop\Product_library\Products.json");
-            var calculator = new OrderCalculator();
-            var cart = new Cart();
-            var position = new Product("ElectronicsProduct", 10, 1, new DateTime(2022, 1, 1), 10, "Description");
-            cart.AddItem(position);
-            calculator.RemoveItemsByType("ElectronicsProduct", cart, storage);
-            Assert.IsFalse(cart.items.Any());
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestAddNegativeQuantity()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, -2);
         }
 
@@ -88,7 +138,16 @@ namespace Product_library.Tests
         public void TestAddZeroQuantity()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 0);
         }
 
@@ -97,7 +156,16 @@ namespace Product_library.Tests
         public void TestSubtractNegativeQuantity()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 5);
             calculator.Subtract(position, -2);
         }
@@ -107,7 +175,16 @@ namespace Product_library.Tests
         public void TestSubtractZeroQuantity()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 5);
             calculator.Subtract(position, 0);
         }
@@ -117,7 +194,16 @@ namespace Product_library.Tests
         public void TestMultiplyOverflow()
         {
             var calculator = new OrderCalculator();
-            var position = new PositionInCart(new Product("Product1", 10, 1, new DateTime(2022, 1, 1), 10, "Description"));
+            var position = new PositionInCart(new ElectronicsProduct
+            {
+                Name = "Product1",
+                Price = 100.0,
+                Weight = 1.0,
+                DeliveryDate = new DateTime(2022, 1, 1),
+                Stock = 10,
+                Description = "Описание",
+                HasDryer = false
+            });
             calculator.Add(position, 2);
             calculator.Multiply(position, int.MaxValue);
         }

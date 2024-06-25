@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text.Json;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Product_library;
 
@@ -23,27 +22,39 @@ namespace Product_library
                 foreach (var element in jArray)
                 {
                     string type = element["type"].Value<string>();
+                    Product product = null;
+
                     switch (type)
                     {
                         case "FurnitureProduct":
-                            stock.Add(element.ToObject<FurnitureProduct>());
+                            product = element.ToObject<FurnitureProduct>();
                             break;
                         case "FoodProduct":
-                            stock.Add(element.ToObject<FoodProduct>());
+                            product = element.ToObject<FoodProduct>();
                             break;
                         case "ElectronicsProduct":
-                            stock.Add(element.ToObject<ElectronicsProduct>());
+                            product = element.ToObject<ElectronicsProduct>();
                             break;
                         default:
-                            throw new Exception("Не существет товар с таким типом");
+                            throw new Exception($"Не существует товара с таким типом: {type}");
                     }
+
+                    stock.Add(product);
                 }
             }
         }
-
         public void SaveStock(string filePath)
         {
-            string json = JsonSerializer.Serialize(stock);
+            JArray jArray = new JArray();
+
+            foreach (var product in stock)
+            {
+                JObject jObject = JObject.FromObject(product);
+                jObject.Add("type", product.GetType().Name);
+                jArray.Add(jObject);
+            }
+            
+            string json = jArray.ToString();
             File.WriteAllText(filePath, json);
         }
     }

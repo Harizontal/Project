@@ -1,13 +1,6 @@
 ﻿using Product_library;
-using ProductLibraryConsoleApp;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ProductLibraryConsoleApp
 {
@@ -15,91 +8,66 @@ namespace ProductLibraryConsoleApp
     {
         public static Cart GenerateOrder(int count)
         {
-            Random random = new Random();
             Cart cart = new Cart();
             for (int i = 0; i < count; i++)
             {
-                Product product = GenerateProduct(random);
-                cart.AddItem(product);
+                cart.AddItem(GenerateProduct());
             }
             return cart;
         }
 
         public static Cart GenerateOrderSum(double maxSum)
         {
-            Random random = new Random();
-            int count = random.Next(1, 10);
+            var cart = new Cart();
+            while (cart.TotalPrice() <= maxSum)
+            {
+                cart.AddItem(GenerateProduct());
+            }
+            return cart;
+        }
+
+        public static Cart GenerateOrderSumMinMax(double minSum, double maxSum)
+        {
+            var cart = new Cart();
+            while (cart.TotalPrice() < minSum || cart.TotalPrice() > maxSum)
+            {
+                cart.AddItem(GenerateProduct());
+            }
+            return cart;
+        }
+
+        public static Cart GenerateOrderCount(int maxCount, int count)
+        {
             Cart cart = new Cart();
-            double sum = 0;
 
             for (int i = 0; i < count; i++)
             {
-                Product product = GenerateProduct(random);
-                sum += product.Price;
-                if (sum > maxSum)
-                {
-                    break;
-                }
-                cart.AddItem(product);
+                cart.AddItem(GenerateProduct());
             }
 
             return cart;
         }
 
-        public static Cart GenerateOrderSum(double minSum, double maxSum)
+        public static Product GenerateProduct()
         {
             Random random = new Random();
-            int count = random.Next(1, 10);
-            Cart cart = new Cart();
-            double sum = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                Product product = GenerateProduct(random);
-                sum += product.Price;
-                while (sum > maxSum & sum < minSum)
-                {
-                    product = GenerateProduct(random);
-                }
-                cart.AddItem(product);
-            }
-
-            return cart;
-        }
-
-        public static Cart GenerateOrderCount(int maxCount)
-        {
-            Random random = new Random();
-            int count = random.Next(1, maxCount);
-            Cart cart = new Cart();
-
-            for (int i = 0; i < count; i++)
-            {
-                Product product = GenerateProduct(random);
-                cart.AddItem(product);
-            }
-
-            return cart;
-        }
-
-        public static Product GenerateProduct(Random random)
-        {
             int productType = random.Next(1, 4);
             switch (productType)
             {
                 case 1:
-                    return GenerateFoodProduct(random);
+                    return GenerateFoodProduct();
                 case 2:
-                    return GenerateFurnitureProduct(random);
+                    return GenerateFurnitureProduct();
                 case 3:
-                    return GenerateElectronicsProduct(random);
+                    return GenerateElectronicsProduct();
                 default:
                     throw new InvalidOperationException($"Invalid product type: {productType}");
             }
         }
 
-        private static FoodProduct GenerateFoodProduct(Random random)
+        private static FoodProduct GenerateFoodProduct()
         {
+            Random random = new Random();
             string name = $"Food Product {random.Next(1, 5)}";
             double price = Math.Round(random.NextDouble() * 100, 2);
             double weight = Math.Round(random.NextDouble() * 100, 3);
@@ -107,11 +75,21 @@ namespace ProductLibraryConsoleApp
             int stock = random.Next(1, 100);
             string description = $"Описание для {name}";
             DateTime expirationDate = DateTime.Now.AddDays(random.Next(0, 365));
-            return new FoodProduct(name, price, weight, deliveryDate, stock, description, expirationDate);
+            return new FoodProduct
+            {
+                Name = name,
+                Price = price,
+                Weight = weight,
+                DeliveryDate = deliveryDate,
+                ExpirationDate = expirationDate,
+                Stock = stock,
+                Description = description
+            };
         }
 
-        private static FurnitureProduct GenerateFurnitureProduct(Random random)
+        private static FurnitureProduct GenerateFurnitureProduct()
         {
+            Random random = new Random();
             string name = $"Furniture Product {random.Next(1, 200)}";
             double price = Math.Round(random.NextDouble() * 1000, 2);
             double weight = Math.Round(random.NextDouble() * 1000, 3);
@@ -119,21 +97,40 @@ namespace ProductLibraryConsoleApp
             int stock = random.Next(1, 100);
             string description = $"Описание для {name}";
             string material = $"Material {random.Next(1, 10)}";
-            return new FurnitureProduct(name, price, weight, deliveryDate, stock, description, material);
+            return new FurnitureProduct
+            {
+                Name = name,
+                Price = price,
+                Weight = weight,
+                DeliveryDate = deliveryDate,
+                Description = description,
+                Stock = stock,
+                Material = material 
+            };
         }
 
-        private static ElectronicsProduct GenerateElectronicsProduct(Random random)
+        private static ElectronicsProduct GenerateElectronicsProduct()
         {
-            string name = $"Electronics Product {random.Next(1, 200)}";
+            Random random = new Random();
+            string name = $"Electronics Product {Guid.NewGuid()}";
             double price = Math.Round(random.NextDouble() * 1000, 2);
             double weight = Math.Round(random.NextDouble() * 100, 3);
             DateTime deliveryDate = DateTime.Now.AddDays(random.Next(-30, 30));
             int stock = random.Next(1, 100);
             string description = $"Описание для {name}";
             bool hasDryer = random.Next(0, 2) == 1;
-            return new ElectronicsProduct(name, price, weight, deliveryDate, stock, description, hasDryer);
+            return new ElectronicsProduct
+            {
+                Name= name,
+                Price = price,
+                Weight = weight,
+                DeliveryDate = deliveryDate,
+                Description = description,
+                Stock = stock,
+                HasDryer = hasDryer
+            };
         }
-        public static void EditProduct(ref Product product, Product editedProduct, bool readFromConsole = true)
+        public static void EditProduct<T>(ref T product, T editedProduct, bool readFromConsole = true) where T : Product
         {
             if (readFromConsole)
             {

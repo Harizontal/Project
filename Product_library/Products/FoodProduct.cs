@@ -9,15 +9,11 @@ namespace Product_library
             [JsonPropertyName("expiration_date")]
             public DateTime ExpirationDate { get; set; }
 
-            public FoodProduct(string name, double price, double weight, DateTime deliveryDate, int stock, string description, DateTime expirationDate)
-                : base(name, price, weight, deliveryDate, stock, description)
-            {
-                ExpirationDate = expirationDate;
-            }
 
             public override string ToString()
             {
-                return $"{Name}, {Price}, {Weight}, {DeliveryDate}, {Stock}, {Description}, {ExpirationDate}";
+                return $"Name: {Name}, Price: {Price}, Weight: {Weight}, DeliveryDate: {DeliveryDate.ToShortDateString()}, " +
+                $"Stcok: {Stock}, Description: {Description} ExpirationDate: {ExpirationDate.ToShortDateString()}";
             }
         }
     }

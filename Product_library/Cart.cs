@@ -2,13 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Product_library;
 
 
 namespace Product_library
@@ -22,34 +16,33 @@ namespace Product_library
             items.Add(new PositionInCart(product));
 
         }
-
         public double TotalPrice() => items.Sum(item => item.GetTotalPrice());
         public double TotalWeight() => items.Sum(item => item.GetTotalWeight());
 
         public string GetOrderInformation(Storage storage)
         {
+            var orderInfo = items.Select(item => $"{item.ToString()}{item.GetItemDescription(storage)}").ToList();
 
-            var info = new List<string>();
-            foreach (var item in items)
-            {
-                info.Add(item.ToString() + item.GetItemDescription(storage));
-            }
-            return string.Join("\n", info);
+            return string.Join("\n", orderInfo);
         }
-        public string AlphabeticalOrder()
+        public static void AlphabeticalOrder(List<Product> products)
         {
-            List<Product> sortedProducts = new List<Product>();
-            sortedProducts.Sort((a, b) => a.Name.CompareTo(b.Name));
+            int n = products.Count;
 
-            StringBuilder sb = new StringBuilder();
-            foreach (Product product in sortedProducts)
+            for (int i = 0; i < n - 1; i++)
             {
-                sb.AppendLine(product.ToString());
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (products[j].Name.CompareTo(products[j + 1].Name) > 0)
+                    {
+                        Product temp = products[j];
+                        products[j] = products[j + 1];
+                        products[j + 1] = temp;
+                    }
+                }
             }
-
-            return sb.ToString();
         }
-        public string ProcessOrderFile(string orderFilePath)
+            public string LoadOrderFile(string orderFilePath)
         {
             while (!File.Exists(orderFilePath))
             {
