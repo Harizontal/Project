@@ -4,8 +4,16 @@ using System.Globalization;
 
 namespace ProductLibraryConsoleApp
 {
+    /// <summary>
+    /// Класс для генерации тестовых данных для заказов и товаров.
+    /// </summary>
     public static class TestDataGenerator
     {
+        /// <summary>
+        /// Генерирует заказ с указанным количеством товаров.
+        /// </summary>
+        /// <param name="count">Количество товаров для добавления в заказ.</param>
+        /// <returns>Сгенерированный заказ.</returns>
         public static Cart GenerateOrder(int count)
         {
             Cart cart = new Cart();
@@ -16,6 +24,11 @@ namespace ProductLibraryConsoleApp
             return cart;
         }
 
+        /// <summary>
+        /// Генерирует заказ с общей стоимостью не более указанной суммы.
+        /// </summary>
+        /// <param name="maxSum">Максимальная стоимость заказа.</param>
+        /// <returns>Сгенерированный заказ.</returns>
         public static Cart GenerateOrderSum(double maxSum)
         {
             var cart = new Cart();
@@ -26,6 +39,12 @@ namespace ProductLibraryConsoleApp
             return cart;
         }
 
+        /// <summary>
+        /// Генерирует заказ с общей стоимостью в диапазоне от минимальной до максимальной суммы.
+        /// </summary>
+        /// <param name="minSum">Минимальная стоимость заказа.</param>
+        /// <param name="maxSum">Максимальная стоимость заказа.</param>
+        /// <returns>Сгенерированный заказ.</returns>
         public static Cart GenerateOrderSumMinMax(double minSum, double maxSum)
         {
             var cart = new Cart();
@@ -36,11 +55,16 @@ namespace ProductLibraryConsoleApp
             return cart;
         }
 
-        public static Cart GenerateOrderCount(int maxCount, int count)
+        /// <summary>
+        /// Генерирует заказ с указанным максимальным количеством товаров.
+        /// </summary>
+        /// <param name="maxCount">Максимальное количество товаров для добавления в заказ.</param>
+        /// <returns>Сгенерированный заказ.</returns>
+        public static Cart GenerateOrderCount(int maxCount)
         {
             Cart cart = new Cart();
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < maxCount; i++)
             {
                 cart.AddItem(GenerateProduct());
             }
@@ -48,6 +72,10 @@ namespace ProductLibraryConsoleApp
             return cart;
         }
 
+        /// <summary>
+        /// Генерирует случайный товар.
+        /// </summary>
+        /// <returns>Сгенерированный товар.</returns>
         public static Product GenerateProduct()
         {
             Random random = new Random();
@@ -55,19 +83,18 @@ namespace ProductLibraryConsoleApp
             switch (productType)
             {
                 case 1:
-                    return GenerateFoodProduct();
+                    return GenerateFoodProduct(random);
                 case 2:
-                    return GenerateFurnitureProduct();
+                    return GenerateFurnitureProduct(random);
                 case 3:
-                    return GenerateElectronicsProduct();
+                    return GenerateElectronicsProduct(random);
                 default:
                     throw new InvalidOperationException($"Invalid product type: {productType}");
             }
         }
 
-        private static FoodProduct GenerateFoodProduct()
+        private static FoodProduct GenerateFoodProduct(Random random)
         {
-            Random random = new Random();
             string name = $"Food Product {random.Next(1, 5)}";
             double price = Math.Round(random.NextDouble() * 100, 2);
             double weight = Math.Round(random.NextDouble() * 100, 3);
@@ -87,9 +114,8 @@ namespace ProductLibraryConsoleApp
             };
         }
 
-        private static FurnitureProduct GenerateFurnitureProduct()
+        private static FurnitureProduct GenerateFurnitureProduct(Random random)
         {
-            Random random = new Random();
             string name = $"Furniture Product {random.Next(1, 200)}";
             double price = Math.Round(random.NextDouble() * 1000, 2);
             double weight = Math.Round(random.NextDouble() * 1000, 3);
@@ -109,9 +135,8 @@ namespace ProductLibraryConsoleApp
             };
         }
 
-        private static ElectronicsProduct GenerateElectronicsProduct()
+        private static ElectronicsProduct GenerateElectronicsProduct(Random random)
         {
-            Random random = new Random();
             string name = $"Electronics Product {Guid.NewGuid()}";
             double price = Math.Round(random.NextDouble() * 1000, 2);
             double weight = Math.Round(random.NextDouble() * 100, 3);
@@ -130,6 +155,14 @@ namespace ProductLibraryConsoleApp
                 HasDryer = hasDryer
             };
         }
+
+        /// <summary>
+        /// Изменяет ифнормацию о товаре
+        /// </summary>
+        /// <param name="product">Ссылка на объект, представляющий товар, который будет изменен.</param>
+        /// <param name="editedProduct">Объект, содержащий новые значения для товара.</param>
+        /// <param name="readFromConsole"> флаг, указывающий, нужно ли считывать новые значения из консоли.</param>
+        /// <returns>Сгенерированный заказ.</returns>
         public static void EditProduct<T>(ref T product, T editedProduct, bool readFromConsole = true) where T : Product
         {
             if (readFromConsole)

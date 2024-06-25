@@ -7,24 +7,52 @@ using System.IO;
 
 namespace Product_library
 {
+    /// <summary>
+    /// Класс представляющий корзину с товарами.
+    /// Содержит список позиций в корзине и методы для работы с ними.
+    /// </summary>
     public class Cart
     {
         public List<PositionInCart> items = new List<PositionInCart>();
 
+        /// <summary>
+        /// Добавляет товар в корзину.
+        /// </summary>
+        /// <param name="product">Товар, который нужно добавить в корзину.</param>
         public void AddItem(Product product)
         {
             items.Add(new PositionInCart(product));
 
         }
+
+        /// <summary>
+        /// Возвращает общую стоимость всех товаров в корзине.
+        /// </summary>
+        /// <returns>Общая стоимость всех товаров в корзине.</returns>
         public double TotalPrice() => items.Sum(item => item.GetTotalPrice());
+
+        /// <summary>
+        /// Возвращает общий вес всех товаров в корзине.
+        /// </summary>
+        /// <returns>Общий вес всех товаров в корзине.</returns>
         public double TotalWeight() => items.Sum(item => item.GetTotalWeight());
 
+        /// <summary>
+        /// Возвращает информацию о заказе в виде строки.
+        /// </summary>
+        /// <param name="storage">Хранилище, содержащее информацию о продуктах.</param>
+        /// <returns>Информация о заказе в виде строки.</returns>
         public string GetOrderInformation(Storage storage)
         {
             var orderInfo = items.Select(item => $"{item.ToString()}{item.GetItemDescription(storage)}").ToList();
 
             return string.Join("\n", orderInfo);
         }
+
+        /// <summary>
+        /// Сортирует список товаров по алфавиту.
+        /// </summary>
+        /// <param name="products">Список товаров, который нужно отсортировать.</param>
         public static void AlphabeticalOrder(List<Product> products)
         {
             int n = products.Count;
@@ -42,7 +70,13 @@ namespace Product_library
                 }
             }
         }
-            public string LoadOrderFile(string orderFilePath)
+
+        /// <summary>
+        /// Загружает информацию о заказе из файла.
+        /// </summary>
+        /// <param name="orderFilePath">Путь к файлу с информацией о заказе.</param>
+        /// <returns>Информация о заказе в виде строки.</returns>
+        public string LoadOrderFile(string orderFilePath)
         {
             while (!File.Exists(orderFilePath))
             {

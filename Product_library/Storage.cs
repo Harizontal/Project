@@ -9,9 +9,17 @@ using Product_library;
 
 namespace Product_library
 {
+    /// <summary>
+    /// Класс для управления хранилищем товаров.
+    /// </summary>
     public class Storage
     {
         public List<Product> stock = new List<Product>();
+
+        /// <summary>
+        /// Загружает данные о товарах из указанного JSON-файла.
+        /// </summary>
+        /// <param name="filePath">Путь к JSON-файлу с данными о товарах.</param>
         public void LoadStock(string filePath)
         {
             if (File.Exists(filePath))
@@ -43,6 +51,11 @@ namespace Product_library
                 }
             }
         }
+
+        /// <summary>
+        /// Сохраняет данные о товарах в указанный JSON-файл.
+        /// </summary>
+        /// <param name="filePath">Путь к JSON-файлу, в который будут сохранены данные о товарах.</param>
         public void SaveStock(string filePath)
         {
             JArray jArray = new JArray();
