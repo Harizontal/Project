@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
+    <Compile Include="LinqQuery.cs" />
     <Compile Include="OrderCalculator.cs" />
     <Compile Include="PositionInCart.cs" />
     <Compile Include="Products\ElectronicsProduct.cs" />

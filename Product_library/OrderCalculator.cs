@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Calculator_library;
 
 namespace Product_library
@@ -41,11 +39,11 @@ namespace Product_library
         }
         public void RemoveItemsByType(string productType, Cart cart, Storage storage)
         {
-            List<Product> productsToRemove = GetProductsByType(productType, storage);
+            var productsToRemove = storage.stock.FindAll(p => p.GetType().Name == productType);
 
-            foreach (var product in productsToRemove)
+            foreach (var productToRemove in productsToRemove)
             {
-                var positionInCart = cart.items.FirstOrDefault(p => p.Name == product.Name);
+                var positionInCart = cart.items.Find(p => p.Name == productToRemove.Name);
                 if (positionInCart != null)
                 {
                     cart.items.Remove(positionInCart);
@@ -53,35 +51,6 @@ namespace Product_library
             }
         }
 
-        private List<Product> GetProductsByType(string productType, Storage storage)
-        {
-            List<Product> products = new List<Product>();
 
-            switch (productType)
-            {
-                case "ElectronicsProduct":
-                    foreach (var product in storage.stock.OfType<ElectronicsProduct>())
-                    {
-                        products.Add(product);
-                    }
-                    break;
-                case "FoodProduct":
-                    foreach (var product in storage.stock.OfType<FoodProduct>())
-                    {
-                        products.Add(product);
-                    }
-                    break;
-                case "FurnitureProduct":
-                    foreach (var product in storage.stock.OfType<FurnitureProduct>())
-                    {
-                        products.Add(product);
-                    }
-                    break;
-                default:
-                    throw new ArgumentException("Неверный тип продукта");
-            }
-
-            return products;
-        }
     }
 }
