@@ -2,8 +2,12 @@
 using System;
 using System.Text.Json.Serialization;
 
+/// <summary>
+/// Наследуемый класс Product
+/// </summary>
 public class ElectronicsProduct : Product
 {
+
     [JsonPropertyName("has_dryer")]
     public bool HasDryer { get; set; }
     public override string ToString()

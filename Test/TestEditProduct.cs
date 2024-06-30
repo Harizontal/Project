@@ -34,7 +34,7 @@ namespace ProductLibrary.Tests
                 HasDryer = true
             };
 
-            TestDataGenerator.EditProduct(ref product, editedProduct, false);
+            TestDataGenerator.EditProduct(product, editedProduct);
 
             Assert.AreEqual("New Name", product.Name);
             Assert.AreEqual(200.0, product.Price);
@@ -70,7 +70,7 @@ namespace ProductLibrary.Tests
                 HasDryer = true
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace ProductLibrary.Tests
                 Material = "New Material"
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
 
         }
         [TestMethod]
@@ -148,13 +148,13 @@ namespace ProductLibrary.Tests
                 Name = "New Name",
                 Price = 11.1,
                 Weight = -12.0,
-                DeliveryDate = new DateTime(2021, 1, 1),
+                DeliveryDate = new DateTime(2021, 1, 1),    
                 Stock = 10,
                 Description = "Описание",
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithZeroWeight()
@@ -181,7 +181,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithNegativeDeliveryDate()
@@ -208,7 +208,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithZeroDeliveryDate()
@@ -235,7 +235,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithNegativeStock()
@@ -262,7 +262,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithZeroStock()
@@ -289,7 +289,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithEmptyDescription()
@@ -316,7 +316,7 @@ namespace ProductLibrary.Tests
                 Material = "Материал",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithEmptyMaterial()
@@ -343,7 +343,7 @@ namespace ProductLibrary.Tests
                 Material = "",
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
         [TestMethod]
         public void EditProduct_WithEmptyExpirationDate()
@@ -370,7 +370,7 @@ namespace ProductLibrary.Tests
                 ExpirationDate = new DateTime(0, 0, 0)
             };
 
-            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(ref product, editedProduct, false));
+            Assert.ThrowsException<ArgumentException>(() => TestDataGenerator.EditProduct(product, editedProduct));
         }
 }   }   
                

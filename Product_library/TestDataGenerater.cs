@@ -14,10 +14,11 @@ namespace ProductLibraryConsoleApp
         /// </summary>
         /// <param name="count">Количество товаров для добавления в заказ.</param>
         /// <returns>Сгенерированный заказ.</returns>
-        public static Cart GenerateOrder(int count)
+        public static Cart GenerateOrder()
         {
+            Random rnd = new Random();
             Cart cart = new Cart();
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < rnd.Next(0, 11); i++)
             {
                 cart.AddItem(GenerateProduct());
             }
@@ -161,100 +162,36 @@ namespace ProductLibraryConsoleApp
         /// </summary>
         /// <param name="product">Ссылка на объект, представляющий товар, который будет изменен.</param>
         /// <param name="editedProduct">Объект, содержащий новые значения для товара.</param>
-        /// <param name="readFromConsole"> флаг, указывающий, нужно ли считывать новые значения из консоли.</param>
         /// <returns>Сгенерированный заказ.</returns>
-        public static void EditProduct<T>(ref T product, T editedProduct, bool readFromConsole = true) where T : Product
+        public static void EditProduct<T>(T product, T editedProduct) where T : Product
         {
-            if (readFromConsole)
+            editedProduct.Name = product.Name;
+            editedProduct.Description = product.Description;
+            editedProduct.Price = product.Price;
+            editedProduct.Weight = product.Weight;
+            editedProduct.DeliveryDate = product.DeliveryDate;
+
+            switch (product)
             {
-                Console.WriteLine("Введите новое название товара:");
-                string newName = Console.ReadLine();
-                while (string.IsNullOrEmpty(newName))
-                {
-                    Console.WriteLine("Некорректное название. Попробуйте еще раз:");
-                    newName = Console.ReadLine();
-                }
-                product.Name = newName;
-
-                Console.WriteLine("Введите новое описание товара:");
-                string newDescription = Console.ReadLine();
-                while (string.IsNullOrEmpty(newDescription))
-                {
-                    Console.WriteLine("Некорректное описание. Попробуйте еще раз:");
-                    newDescription = Console.ReadLine();
-                }
-                product.Description = newDescription;
-
-                Console.WriteLine("Введите новую цену товара:");
-                string newPriceString = Console.ReadLine();
-                double newPrice;
-                while (!double.TryParse(newPriceString, out newPrice))
-                {
-                    Console.WriteLine("Некорректная цена. Попробуйте еще раз:");
-                    newPriceString = Console.ReadLine();
-                }
-                product.Price = newPrice;
-
-                Console.WriteLine("Введите новый вес товара:");
-                string newWeightString = Console.ReadLine();
-                double newWeight;
-                while (!double.TryParse(newWeightString, out newWeight))
-                {
-                    Console.WriteLine("Некорректный вес. Попробуйте еще раз:");
-                    newWeightString = Console.ReadLine();
-                }
-                product.Weight = newWeight;
-
-                Console.WriteLine("Введите новую дату доставки товара:");
-                string newDeliveryDateString = Console.ReadLine();
-                DateTime newDeliveryDate;
-                while (!DateTime.TryParseExact(newDeliveryDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newDeliveryDate))
-                {
-                    Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
-                    newDeliveryDateString = Console.ReadLine();
-                }
-                product.DeliveryDate = newDeliveryDate;
-
-                switch (product)
-                {
-                    case FurnitureProduct furnitureProduct:
-                        Console.WriteLine("Введите новый материал мебели:");
-                        string newMaterial = Console.ReadLine();
-                        while (string.IsNullOrEmpty(newMaterial))
-                        {
-                            Console.WriteLine("Некорректный материал. Попробуйте еще раз:");
-                            newMaterial = Console.ReadLine();
-                        }
-                        furnitureProduct.Material = newMaterial;
-                        break;
-                    case FoodProduct foodProduct:
-                        Console.WriteLine("Введите новую дату истечения срока годности:");
-                        string newExpirationDateString = Console.ReadLine();
-                        DateTime newExpirationDate;
-                        while (!DateTime.TryParseExact(newExpirationDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newExpirationDate))
-                        {
-                            Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
-                            newExpirationDateString = Console.ReadLine();
-                        }
-                        foodProduct.ExpirationDate = newExpirationDate;
-                        break;
-                    case ElectronicsProduct electronicsProduct:
-                        Console.WriteLine("Введите новое значение для наличия сушилки (true/false):");
-                        string newHasDryerString = Console.ReadLine();
-                        bool newHasDryer;
-                        while (!bool.TryParse(newHasDryerString, out newHasDryer))
-                        {
-                            Console.WriteLine("Некорректное значение. Попробуйте еще раз:");
-                            newHasDryerString = Console.ReadLine();
-                        }
-                        electronicsProduct.HasDryer = newHasDryer;
-                        break;
-                    default:
-                        Console.WriteLine("Тип продукта не поддерживается.");
-                        break;
-                }
+                case FurnitureProduct furnitureProduct:
+                    editedProduct = (T)(object)new FurnitureProduct
+                    {
+                        Material = furnitureProduct.Material
+                    };
+                    break;
+                case FoodProduct foodProduct:
+                    editedProduct = (T)(object)new FoodProduct
+                    {
+                        Stock = foodProduct.Stock
+                    };
+                    break;
+                case ElectronicsProduct electronicsProduct:
+                    editedProduct = (T)(object)new ElectronicsProduct
+                    {
+                        HasDryer = electronicsProduct.HasDryer
+                    };
+                    break;
             }
-            product = editedProduct;
         }
     }
 }

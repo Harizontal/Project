@@ -13,7 +13,6 @@ namespace ProductLibraryConsoleApp
             storage.LoadStock(@"C:\Users\Alexey\Desktop\Product_library\Products.json");
 
             Cart cart = new Cart();
-            cart = TestDataGenerator.GenerateOrderSumMinMax(10, 90);
 
             OrderCalculator calculator = new OrderCalculator();
 
@@ -130,7 +129,7 @@ namespace ProductLibraryConsoleApp
                         switch (choices)
                         {
                             case 1:
-                                calculator.RemoveItemsByType("ElectronicsProduct",cart,storage);
+                                calculator.RemoveItemsByType("ElectronicsProduct", cart, storage);
                                 break;
                             case 2:
                                 calculator.RemoveItemsByType("FoodProduct", cart, storage);
@@ -147,19 +146,106 @@ namespace ProductLibraryConsoleApp
                     case 7:
                         Console.Write("Введите имя товара для редактирования: ");
                         string productName = Console.ReadLine();
-                        var productToEdit = storage.stock.FirstOrDefault(p => p.Name == productName);
-                        if (productToEdit != null)
+                        var productEdit = storage.stock.FirstOrDefault(p => p.Name == productName);
+                        Product produtcClone = productEdit;
                         {
-                            var index = storage.stock.IndexOf(productToEdit);
-                            TestDataGenerator.EditProduct(ref productToEdit, productToEdit, true);
-                            storage.stock[index] = productToEdit;
-                            Console.WriteLine("Товар успешно отредактирован.");
+                            if (productEdit != null)
+                            {
+                                var index = storage.stock.IndexOf(productEdit);
+                                Console.WriteLine("Введите новое название товара:");
+                                string newName = Console.ReadLine();
+                                while (string.IsNullOrEmpty(newName))
+                                {
+                                    Console.WriteLine("Некорректное название. Попробуйте еще раз:");
+                                    newName = Console.ReadLine();
+                                }
+                                produtcClone.Name = newName;
+
+                                Console.WriteLine("Введите новое описание товара:");
+                                string newDescription = Console.ReadLine();
+                                while (string.IsNullOrEmpty(newDescription))
+                                {
+                                    Console.WriteLine("Некорректное описание. Попробуйте еще раз:");
+                                    newDescription = Console.ReadLine();
+                                }
+                                produtcClone.Description = newDescription;
+
+                                Console.WriteLine("Введите новую цену товара:");
+                                string newPriceString = Console.ReadLine();
+                                double newPrice;
+                                while (!double.TryParse(newPriceString, out newPrice))
+                                {
+                                    Console.WriteLine("Некорректная цена. Попробуйте еще раз:");
+                                    newPriceString = Console.ReadLine();
+                                }
+                                produtcClone.Price = newPrice;
+
+                                Console.WriteLine("Введите новый вес товара:");
+                                string newWeightString = Console.ReadLine();
+                                double newWeight;
+                                while (!double.TryParse(newWeightString, out newWeight))
+                                {
+                                    Console.WriteLine("Некорректный вес. Попробуйте еще раз:");
+                                    newWeightString = Console.ReadLine();
+                                }
+                                produtcClone.Weight = newWeight;
+
+                                Console.WriteLine("Введите новую дату доставки товара:");
+                                string newDeliveryDateString = Console.ReadLine();
+                                DateTime newDeliveryDate;
+                                while (!DateTime.TryParseExact(newDeliveryDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newDeliveryDate))
+                                {
+                                    Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
+                                    newDeliveryDateString = Console.ReadLine();
+                                }
+                                produtcClone.DeliveryDate = newDeliveryDate;
+
+                                switch (produtcClone)
+                                {
+                                    case FurnitureProduct furnitureProduct:
+                                        Console.WriteLine("Введите новый материал мебели:");
+                                        string newMaterial = Console.ReadLine();
+                                        while (string.IsNullOrEmpty(newMaterial))
+                                        {
+                                            Console.WriteLine("Некорректный материал. Попробуйте еще раз:");
+                                            newMaterial = Console.ReadLine();
+                                        }
+                                        furnitureProduct.Material = newMaterial;
+                                        break;
+                                    case FoodProduct foodProduct:
+                                        Console.WriteLine("Введите новую дату истечения срока годности:");
+                                        string newExpirationDateString = Console.ReadLine();
+                                        DateTime newExpirationDate;
+                                        while (!DateTime.TryParseExact(newExpirationDateString, "dd.MM.yyyy", null, DateTimeStyles.None, out newExpirationDate))
+                                        {
+                                            Console.WriteLine("Некорректная дата. Попробуйте еще раз:");
+                                            newExpirationDateString = Console.ReadLine();
+                                        }
+                                        foodProduct.ExpirationDate = newExpirationDate;
+                                        break;
+                                    case ElectronicsProduct electronicsProduct:
+                                        Console.WriteLine("Введите новое значение для наличия сушилки (true/false):");
+                                        string newHasDryerString = Console.ReadLine();
+                                        bool newHasDryer;
+                                        while (!bool.TryParse(newHasDryerString, out newHasDryer))
+                                        {
+                                            Console.WriteLine("Некорректное значение. Попробуйте еще раз:");
+                                            newHasDryerString = Console.ReadLine();
+                                        }
+                                        electronicsProduct.HasDryer = newHasDryer;
+                                        break;
+                                    default:
+                                        Console.WriteLine("Тип продукта не поддерживается.");
+                                        break;
+                                }
+                                TestDataGenerator.EditProduct(productEdit, produtcClone);
+                                storage.stock[index] = productEdit;
+                                Console.WriteLine("Товар успешно отредактирован.");
+                            }
+                            else
+                                Console.WriteLine("Товар не найден.");
+                            break;
                         }
-                        else
-                        {
-                            Console.WriteLine("Товар не найден.");
-                        }
-                        break;
 
                     case 8:
                         while (true)
@@ -211,7 +297,6 @@ namespace ProductLibraryConsoleApp
                         return;
                 }
             }
-
         }
     }
 }

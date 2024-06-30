@@ -11,6 +11,8 @@ namespace Product_library
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("price")]
         public double Price { get; set; }
 
         [JsonPropertyName("weight")]
@@ -28,7 +30,6 @@ namespace Product_library
         /// <summary>
         /// Возвращает строковое представление продукта с основными характеристиками.
         /// </summary>
-        /// <returns>Строка с именем, ценой, весом, датой поставки, количеством на складе и описанием продукта.</returns>
         public override string ToString()
         {
             return $"Name: {Name}, Price: {Price}, Weight: {Weight}, DeliveryDate: {DeliveryDate.Date}, Stcok: {Stock}, Description: {Description}";
