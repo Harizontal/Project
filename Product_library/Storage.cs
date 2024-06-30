@@ -10,7 +10,7 @@ using Product_library;
 namespace Product_library
 {
     /// <summary>
-    /// Класс для управления хранилищем товаров.
+    /// Класс для хранения товаров.
     /// </summary>
     public class Storage
     {

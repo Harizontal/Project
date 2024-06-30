@@ -78,11 +78,6 @@ namespace Product_library
         /// <returns>Информация о заказе в виде строки.</returns>
         public string LoadOrderFile(string orderFilePath)
         {
-            while (!File.Exists(orderFilePath))
-            {
-                Console.WriteLine("Файл заказа не найден");
-                orderFilePath = Console.ReadLine();
-            }
             Dictionary<Product, int> productCounts = new Dictionary<Product, int>();
 
             string json = File.ReadAllText(orderFilePath);
